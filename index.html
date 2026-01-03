@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,19 +7,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Zhi Mang Xing: For the dynamic 'flying white' Chinese calligraphy -->
-  <!-- Playfair Display: For the elegant serif English style in the reference -->
-  <!-- Great Vibes: For the decorative script English style in the reference -->
   <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Great+Vibes&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink-black: #2a2a2a; /* 调整为深墨色，用于浅色背景下的文字 */
+      --ink-black: #2a2a2a;
       --cinnabar: #A6342E;
-      --gold: #8b6b23; /* 加深金色，确保在浅色背景上的可见度 */
-      --paper-bg: #f4eee0; /* 经典国画宣纸色 */
+      --gold: #8b6b23;
+      --paper-bg: #f4eee0;
     }
 
-    /* 全局背景与亮度调整 */
     body {
       background-color: var(--paper-bg);
       color: var(--ink-black);
@@ -31,24 +26,15 @@
       overflow-x: hidden;
     }
 
-    /* 动态中文书法 */
-    .cn-font {
-      font-family: 'Zhi Mang Xing', cursive;
-    }
+    .cn-font { font-family: 'Zhi Mang Xing', cursive; }
+    .script-font { font-family: 'Great Vibes', cursive; }
 
-    /* 装饰性英文 */
-    .script-font {
-      font-family: 'Great Vibes', cursive;
-    }
-
-    /* 标题样式 */
     h1, h2, h3, h4 {
       font-weight: 400;
       color: var(--ink-black);
       line-height: 1.2;
     }
 
-    /* 导航样式：提升基础亮度和对比度 */
     nav a {
       font-family: 'Playfair Display', serif;
       letter-spacing: 0.1em;
@@ -59,37 +45,36 @@
       filter: drop-shadow(0 0 1px rgba(139, 107, 35, 0.2));
     }
 
-    /* 移除先前“灰蒙蒙”的深色蒙层 */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: none; /* 清除遮罩 */
-      pointer-events: none;
-      z-index: 99;
-    }
-
-    /* 滚动条 */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--paper-bg); }
     ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    .fade-in {
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 <script type="importmap">
 {
   "imports": {
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.11.0",
+    "vite": "https://esm.sh/vite@^7.3.0",
     "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.11.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
 </head>
 <body>
   <div id="root"></div>
+  <!-- Main entry point for the React application -->
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>
