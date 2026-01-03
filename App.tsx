@@ -1,5 +1,5 @@
 
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Legend from './pages/Legend';
@@ -7,6 +7,19 @@ import History from './pages/History';
 import Heritage from './pages/Heritage';
 import Modern from './pages/Modern';
 import Resources from './pages/Resources';
+import HeritageOpera from './pages/heritage/HeritageOpera';
+import HeritageMusic from './pages/heritage/HeritageMusic';
+import HeritageCrafts from './pages/heritage/HeritageCrafts';
+import HeritageOral from './pages/heritage/HeritageOral';
+
+// 滚动修复组件
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 type Language = 'en' | 'cn';
 interface LanguageContextType {
@@ -48,7 +61,6 @@ const Navigation = () => {
   return (
     <nav className="sticky top-0 z-50 bg-[#f4eee0]/95 backdrop-blur-md px-8 py-4 border-b border-black/5 shadow-sm">
       <div className="max-w-[1600px] mx-auto flex justify-between items-center">
-        {/* Left: Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-9 h-9 rounded-full bg-[#A6342E] flex items-center justify-center text-[#f4eee0] font-serif italic text-lg shadow-sm group-hover:scale-105 transition-transform">
             LZ
@@ -59,7 +71,6 @@ const Navigation = () => {
           </div>
         </Link>
 
-        {/* Center/Right: Nav Links */}
         <div className="flex items-center flex-1 justify-end mr-8">
           <div className="flex items-center">
             {links.map((link) => (
@@ -67,20 +78,18 @@ const Navigation = () => {
                 key={link.path}
                 to={link.path}
                 className={`transition-all px-4 py-2 relative group ${
-                  location.pathname === link.path ? 'text-[#A6342E] font-bold' : 'text-black/60 hover:text-black'
+                  location.pathname.startsWith(link.path === '/' ? '$' : link.path) || location.pathname === link.path ? 'text-[#A6342E] font-bold' : 'text-black/60 hover:text-black'
                 } ${lang === 'cn' ? 'text-lg' : 'text-[11px] tracking-[0.2em] uppercase font-medium'}`}
                 style={{ fontFamily: lang === 'cn' ? "'Zhi Mang Xing', cursive" : "'Playfair Display', serif" }}
               >
                 {lang === 'en' ? link.labelEn : link.labelCn}
-                {location.pathname === link.path && (
+                {(location.pathname.startsWith(link.path === '/' ? '$' : link.path) || location.pathname === link.path) && (
                   <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-[#A6342E]" />
                 )}
               </Link>
             ))}
           </div>
         </div>
-
-        {/* Far Right: Language Toggle */}
         <LanguageToggle />
       </div>
     </nav>
@@ -93,6 +102,7 @@ const App: React.FC = () => {
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
       <Router>
+        <ScrollToTop />
         <div className="min-h-screen flex flex-col selection:bg-[#8b6b23]/20 selection:text-[#8b6b23]">
           <Navigation />
           <main className="flex-grow">
@@ -101,6 +111,10 @@ const App: React.FC = () => {
               <Route path="/legend" element={<Legend />} />
               <Route path="/history" element={<History />} />
               <Route path="/heritage" element={<Heritage />} />
+              <Route path="/heritage/opera" element={<HeritageOpera />} />
+              <Route path="/heritage/music" element={<HeritageMusic />} />
+              <Route path="/heritage/crafts" element={<HeritageCrafts />} />
+              <Route path="/heritage/oral" element={<HeritageOral />} />
               <Route path="/modern" element={<Modern />} />
               <Route path="/resources" element={<Resources />} />
             </Routes>
